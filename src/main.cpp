@@ -7,10 +7,15 @@ void setup()
 
 void loop() // the loop function runs over and over again forever
 { 
-  for (int i = 0; i<255; i++)
+  for (int light = 0; light<255; light=light+1)
   {
-      analogWrite(9, i);
-      delay(100);
+      analogWrite(9, light);
+      delay(10);
   }
   
+  for (int light = 255; light>0; light=light-1)
+  {
+      analogWrite(9, light);
+      delay(10);
+  }
 }
