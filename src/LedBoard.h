@@ -4,6 +4,7 @@ class LedBoard
 {
 private:
     int _SCL_Pin, _SDA_Pin;
+
 public:
     enum Image
     {
@@ -29,7 +30,6 @@ private:
     void IIC_end();
     void IIC_send(unsigned char send_data);
 };
-
 
 unsigned char _start[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
 unsigned char _front[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x24, 0x12, 0x09, 0x12, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -61,34 +61,34 @@ inline void LedBoard::Display(Image image)
 {
     switch (image)
     {
-    case Image::Start  :
+    case Image::Start:
         matrix_display(_start);
         break;
-        case Image::Stop  :
+    case Image::Stop:
         matrix_display(_stop);
         break;
-            case Image::Left  :
+    case Image::Left:
         matrix_display(_left);
         break;
-            case Image::Right  :
+    case Image::Right:
         matrix_display(_right);
         break;
-            case Image::Front  :
+    case Image::Front:
         matrix_display(_front);
         break;
-            case Image::Back  :
+    case Image::Back:
         matrix_display(_back);
         break;
-            case Image::Clear  :
+    case Image::Clear:
         matrix_display(_clear);
         break;
-            case Image::Smile  :
+    case Image::Smile:
         matrix_display(_smile);
         break;
-            case Image::Error  :
+    case Image::Error:
         matrix_display(_error);
         break;
-default:
+    default:
         matrix_display(_error);
         break;
     }
