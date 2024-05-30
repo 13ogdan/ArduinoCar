@@ -2,32 +2,20 @@
 #include <LineTrackingSensor.h>
 #include <Servo.h>
 #include <Console.h>
+#include <Sonar.h>
 
-Servo servo;
-String command;
-Console console;
-
-boolean newData = false;
+Sonar _sonar = Sonar(12,13);
 
 void setup()
 {
+  _sonar.Setup();
+
   Serial.begin(9600);
   Serial.println("<Arduino is ready>");
-  console = Console();
-
-  servo.attach(A3, 0000, 2500);
-  servo.write(0);
-
+  
 }
 
 void loop()
 {
-  String command = console.ReadCommand();
-  if (command != EMPTY)
-  {
-    int angle = command.toInt();
-    Serial.print("Send angle:");
-    Serial.println(angle);
-    servo.write(angle);
-  }
+    _sonar.GetDistance();
 }
