@@ -8,11 +8,11 @@ private:
 public:
     enum Image
     {
-        Start,
-        Front,
-        Back,
+        Forward,
         Left,
         Right,
+        Back,
+        Start,
         Stop,
         Clear,
         Smile,
@@ -73,7 +73,7 @@ inline void LedBoard::Display(Image image)
     case Image::Right:
         matrix_display(_right);
         break;
-    case Image::Front:
+    case Image::Forward:
         matrix_display(_front);
         break;
     case Image::Back:

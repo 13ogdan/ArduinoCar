@@ -21,15 +21,14 @@ public:
     void Setup();
 
     void Move(Direction direction);
-    void IncreaseMovingSpeed(int increment);
-    void IncreaseRotationSpeed(int increment);
-    void Stop();
-
-private:
     void MoveLeft();
     void MoveRight();
     void MoveBack();
     void MoveForward();
+
+    void IncreaseMovingSpeed(int increment);
+    void IncreaseRotationSpeed(int increment);
+    void Stop();
 };
 
 Motor::Motor(int ML_Ctrl, int ML_PWM, int MR_Ctrl, int MR_PWM)
