@@ -4,25 +4,21 @@
 #include <Console.h>
 #include <Sonar.h>
 #include <IRremote.h>
+#include <LedBoard.h>
 
 
-int RECV_PIN = 3;
-IRrecv irrecv(RECV_PIN);   
-decode_results results;
+LedBoard _ledBoard(A5, A4);
 
-void setup()
-{
-  irrecv.enableIRIn(); 
+
+void setup() {
+  _ledBoard.Setup();
   Serial.begin(9600);
-  Serial.println("<Arduino is ready>");
 }
-
-void loop()
-{
-   if (irrecv.decode(&results))//decode successfully, receive a set of infrared signals  
-   {  
-     Serial.println(results.value, HEX);//Wrap word in 16 HEX to output and receive code 
-     irrecv.resume(); // Receive the next value
-   }  
-   delay(100);  
+void loop() {
+  for (int i = 0; i < 10; i++)
+  {
+    _ledBoard.Display((LedBoard::Image)i);
+    delay(2000);
+  }
+  
 }
