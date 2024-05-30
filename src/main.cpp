@@ -1,21 +1,47 @@
 #include <Arduino.h>
+#include <LineTrackingSensor.h>
+
+LineTrackingSensor *_lineTrackingSensor;
+LineTrackingSensor::Direction _lastDirection = LineTrackingSensor::Direction::Unknown;
 
 void setup()
-{ 
-  pinMode(9, OUTPUT);// initialize digital pin 9 as an output.
+{
+  _lineTrackingSensor = new LineTrackingSensor(11, 7, 8);
+  _lineTrackingSensor->Setup();
+
+  pinMode(9, OUTPUT); // initialize digital pin 9 as an output.
+
+  Serial.begin(9600);
 }
 
 void loop() // the loop function runs over and over again forever
-{ 
-  for (int light = 0; light<255; light=light+1)
+{
+  LineTrackingSensor::Direction direction = _lineTrackingSensor->GetDirection();
+  if (direction != _lastDirection)
   {
-      analogWrite(9, light);
-      delay(10);
+    _lastDirection = direction;
+    LogDirection();
   }
-  
-  for (int light = 255; light>0; light=light-1)
+}
+
+void LogDirection()
+{
+  switch (_lastDirection)
   {
-      analogWrite(9, light);
-      delay(10);
+  case LineTrackingSensor::Direction::Left:
+    Serial.println("Left");
+    break;
+  case LineTrackingSensor::Direction::Right:
+    Serial.println("Right");
+    break;
+  case LineTrackingSensor::Direction::Forward:
+    Serial.println("Forward");
+    break;
+  case LineTrackingSensor::Direction::Unknown:
+    Serial.println("Unknown");
+    break;
+
+  default:
+    Serial.println("ERROR");
   }
 }
