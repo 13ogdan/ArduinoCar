@@ -1,47 +1,33 @@
 #include <Arduino.h>
 #include <LineTrackingSensor.h>
+#include <Servo.h>
+#include <Console.h>
 
-LineTrackingSensor *_lineTrackingSensor;
-LineTrackingSensor::Direction _lastDirection = LineTrackingSensor::Direction::Unknown;
+Servo servo;
+String command;
+Console console;
+
+boolean newData = false;
 
 void setup()
 {
-  _lineTrackingSensor = new LineTrackingSensor(11, 7, 8);
-  _lineTrackingSensor->Setup();
-
-  pinMode(9, OUTPUT); // initialize digital pin 9 as an output.
-
   Serial.begin(9600);
+  Serial.println("<Arduino is ready>");
+  console = Console();
+
+  servo.attach(A3, 0000, 2500);
+  servo.write(0);
+
 }
 
-void loop() // the loop function runs over and over again forever
+void loop()
 {
-  LineTrackingSensor::Direction direction = _lineTrackingSensor->GetDirection();
-  if (direction != _lastDirection)
+  String command = console.ReadCommand();
+  if (command != EMPTY)
   {
-    _lastDirection = direction;
-    LogDirection();
-  }
-}
-
-void LogDirection()
-{
-  switch (_lastDirection)
-  {
-  case LineTrackingSensor::Direction::Left:
-    Serial.println("Left");
-    break;
-  case LineTrackingSensor::Direction::Right:
-    Serial.println("Right");
-    break;
-  case LineTrackingSensor::Direction::Forward:
-    Serial.println("Forward");
-    break;
-  case LineTrackingSensor::Direction::Unknown:
-    Serial.println("Unknown");
-    break;
-
-  default:
-    Serial.println("ERROR");
+    int angle = command.toInt();
+    Serial.print("Send angle:");
+    Serial.println(angle);
+    servo.write(angle);
   }
 }
