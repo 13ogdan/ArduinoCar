@@ -5,24 +5,23 @@
 #include <Sonar.h>
 #include <IRremote.h>
 
-
-int RECV_PIN = 3;
-IRrecv irrecv(RECV_PIN);   
-decode_results results;
+Console* console = new Console();
 
 void setup()
 {
-  irrecv.enableIRIn(); 
   Serial.begin(9600);
   Serial.println("<Arduino is ready>");
+  console->SetCommandEnding(";");
 }
 
 void loop()
 {
-   if (irrecv.decode(&results))//decode successfully, receive a set of infrared signals  
-   {  
-     Serial.println(results.value, HEX);//Wrap word in 16 HEX to output and receive code 
-     irrecv.resume(); // Receive the next value
-   }  
+  String command = console -> ReadCommand();
+  if (command != EMPTY)
+  {
+    Serial.println("New command: " + command);
+    if (command == "путін")
+        Serial.println("=Хуйло");
+  }
    delay(100);  
 }

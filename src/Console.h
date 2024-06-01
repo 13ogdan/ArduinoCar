@@ -7,11 +7,13 @@ class Console
 private:
     String _buffer = String();
     boolean _readingInProggress = false;
-    const String _endMarker = "\r\n";
+    String _endLine = "\r\n";
+    String _endMarker = "\r\n";
 
 public:
     Console();
     String ReadCommand();
+    void SetCommandEnding(String newEndMarker);
 };
 
 Console::Console()
@@ -54,5 +56,11 @@ String Console::ReadCommand()
     }
     
     // Serial.println("Buffer after:" + _buffer);
+    command.replace(_endLine, "");
     return command;
+}
+
+inline void Console::SetCommandEnding(String newEndMarker)
+{
+    _endMarker = newEndMarker;
 }
