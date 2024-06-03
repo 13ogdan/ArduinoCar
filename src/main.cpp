@@ -3,26 +3,25 @@
 #include <Servo.h>
 #include <Console.h>
 #include <Sonar.h>
-#include <IRremote.h>
+#include <IrControl.h>
 
-
-int RECV_PIN = 3;
-IRrecv irrecv(RECV_PIN);   
-decode_results results;
+IrControl _irControl(3);
 
 void setup()
 {
-  irrecv.enableIRIn(); 
+  _irControl.Setup();
   Serial.begin(9600);
   Serial.println("<Arduino is ready>");
 }
 
 void loop()
 {
-   if (irrecv.decode(&results))//decode successfully, receive a set of infrared signals  
-   {  
-     Serial.println(results.value, HEX);//Wrap word in 16 HEX to output and receive code 
-     irrecv.resume(); // Receive the next value
-   }  
-   delay(100);  
+  Command command = _irControl.Read();
+  if (command.IsReady) // decode successfully, receive a set of infrared signals
+  {
+    Serial.print("New command: is pressed=");
+    Serial.print(command.IsPressed);
+    Serial.print(" value=");
+    Serial.println(command.Button);
+  }
 }
